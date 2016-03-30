@@ -1,0 +1,86 @@
+08Aug15 - CmdTwain 2.03
+-----------------------
+ 1. Add /XYWH
+ 2. Changed /S to accept float values if type is TWFIX32 (,7).
+ 3. Added "/S GAMMA n.n" option.
+
+
+21Jun15 - CmdTwain 2.02
+-----------------------
+ 1. Add CmdTwain-Gui
+ 2. /SOURCE doesn't require a connection to the current scanner.
+
+
+04Jun15 - CmdTwain 2.01
+-----------------------
+ 1. Scan loops by default. Should work with doc feeders.
+ 2. /S cmd val option working. Includes BRightness and COntrast.
+ 3. Built using VS2013
+
+
+06Feb14 - CmdTwain-1.06
+-----------------------
+ 1. Fix /WH option (was always doing squares)
+
+
+10Nov13 - CmdTwain-1.05
+-----------------------
+ 1. Ignore /sti* options added to the command line by Windows
+
+
+28Jul13 - CmdTwain 1.04
+-----------------------
+ 1. Add /WH option
+
+
+27May13 - CmdTwain 1.03
+-----------------------
+ 1. Rebuilt using window-less GUI model instead of Console mode.
+    This fixes the black screens which were popping up.
+
+
+09Feb13 - CmdTwain 1.02
+-----------------------
+ 0. Derived from Ver 0.03
+ 1. Now built using VC2010 (was Borland C++ 5)
+ 2. Uses FreeImage instead of Intel JPEG Library
+ 3. Program split into controller, ScanBMP and ImgCnvrt
+ 4. Sets correct Dots Per Inch value in JPG header
+ 5. Installs in "Program Files\GssEziSoft" was "...\Gss EziSoft"
+ 6. Options are now case-insensitive
+ 7. Added "/?" option
+ 8. Included some 1.00.0004 features: /SOURCE, error handling, shortcuts.
+ 9. Updated help
+
+
+21May09 - CmdTwain 1.00.0004 (Not released)
+-------------------------------------------
+
+ 1. Better error handling (e.g. no scanner)
+ 2. /SOURCE option to choose the scan device
+ 3. /N to number scans; instead of overwriting the prior scan
+ 4. /MULTI to scan multiple pages (if supported by scanner)
+ 5. /EOF to set errorlevel if nothing more to scan (if supported by scanner)
+ 6. /? help option
+ 7. Macros facility
+ 8. Macro to enable and use document feeder
+ 9. Shortcuts to "select source", "scan to desktop" and "scan to documents"
+10. Updated help.
+
+
+18Jan09 - CmdTwain 0.03
+-----------------------
+ 1. Easier setup (it now uses the NSIS installer program).
+ 2. Updated Help to point to our new site and to cover the easier install.
+
+
+23Jan08 - CmdTwain 0.02
+-----------------------
+ 1. A self extracting archive (EXE) with a setup script included.
+
+
+21Nov07 - CmdTwain 0.01
+-----------------------
+ 1. A ZIP file.
+
+
