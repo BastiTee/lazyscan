@@ -1,5 +1,5 @@
-# lazyscan
-> A Python script to ease the pain of scanning to PDF.
+## lazyscan
+> A Python script to ease the pain of scanning multiple pages to a single PDF
 
 ## Requirements 
 
