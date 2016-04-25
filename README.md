@@ -1,6 +1,7 @@
 ## lazyscan
 > A Python script to ease the pain of scanning multiple pages to a single PDF
 
+[![GitHub release](https://img.shields.io/github/release/BastiTee/lazyscan.svg?maxAge=2592000)]()
 ## Requirements 
 
 In order for this to run you need to 
