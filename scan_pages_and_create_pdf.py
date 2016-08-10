@@ -1,8 +1,8 @@
 #! /usr/bin/env python
 """
-Script to invoke scanning on a twain-compatible printer and to convert 
-scanned pages to a PDF. Also includes a routine to easily scan multiple 
-pages at once. 
+Script to invoke scanning on a twain-compatible printer and to convert
+scanned pages to a PDF. Also includes a routine to easily scan multiple
+pages at once.
 """
 
 import Tkinter, tkMessageBox, tkFileDialog
@@ -11,6 +11,7 @@ from datetime import datetime
 from os import path, remove, pardir
 from subprocess import PIPE, STDOUT, Popen
 import time
+from PIL import Image
 
 from reportlab.lib.units import cm
 from reportlab.pdfgen import canvas
@@ -51,7 +52,7 @@ if args.i < 10 or args.i > 100:
 
 print 'SCAN_RES={}; CONTRAST={}; JPEG_Q={}; KEEP_TMP={}'.format(
     args.r, args.c, args.i, args.k)
-    
+
 # Get target_filename for final PDF file
 default_filename = (datetime.fromtimestamp(
                     time.time()).strftime('%Y-%m-%d') + '-DOCNAME')
@@ -80,23 +81,23 @@ workdir = path.join(path.dirname(path.realpath(__file__)),
 
 # Scan as many pages as the user desires...
 while True:
-                 
+
     timestamp = datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d_%H%M%S')
     image = path.join(target_folder, timestamp) + '.bmp'
     print 'Creating temporary file at: {0}'.format(image)
-    
-    
+
+
     command = '{} /PAPER=a4 /RGB /DPI={} {}'.format(
                 path.join(workdir, 'ScanBmp.exe'), args.r, image)
-    
+
     handle = Popen(command, shell=True, stdout=PIPE,
                               stderr=STDOUT, cwd=workdir)
     handle.wait()
     images.append(image)
     temp_files.append(image)
-    
+
     # Now the temporary image file lies on the file system
-    
+
     result = tkMessageBox.askquestion(title="Basti's scan tool",
                                        message="Scan another page?")
     if result == 'yes':
@@ -104,7 +105,7 @@ while True:
     else:
         break
 
-# Take a list of JPG/PNG/BMP images and stores the images to 
+# Take a list of JPG/PNG/BMP images and stores the images to
 # an A4-format PDF with each image as one page
 c = canvas.Canvas(target_filename)
 c.setPageCompression(1)
