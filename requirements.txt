@@ -1,1 +1,2 @@
 reportlab >= 3.3
+Pillow >= 2.4

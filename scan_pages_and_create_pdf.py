@@ -20,14 +20,37 @@ Tkinter.Tk().withdraw()
 
 # Command line arguments
 parser = ArgumentParser(description='Scan pages and create PDF.')
-parser.add_argument('-r', metavar='<Resoultion>', default=100,
-                    help='Scan resoultion in DPI (> 100).')
+parser.add_argument('-r', metavar='<Resolution>', default=100,
+                    help='Scan resolution in DPI (100 - 1000).')
 parser.add_argument('-c', metavar='<Contrast>', default=0,
                     help='Contrast (-1000 - 1000).')
-parser.add_argument('-keeptemp', action='store_true',
+parser.add_argument('-i', metavar='<Image-Qlt>', default=90,
+                    help='Image Quality (10-100).')
+parser.add_argument('-k', action='store_true',
                     help='Keep temporary image files', default='False')
 
 args = parser.parse_args()
+
+args.r = int(args.r)
+if args.r < 100 or args.r > 1000:
+    print 'Value for resolution ({}) invalid.'.format(args.r)
+    parser.print_help()
+    exit(1)
+
+args.c = int(args.c)
+if args.c < -1000 or args.c > 1000:
+    print 'Value for contrasts ({}) invalid.'.format(args.c)
+    parser.print_help()
+    exit(1)
+
+args.i = int(args.i)
+if args.i < 10 or args.i > 100:
+    print 'Value for jpeg quality ({}) invalid.'.format(args.i)
+    parser.print_help()
+    exit(1)
+
+print 'SCAN_RES={}; CONTRAST={}; JPEG_Q={}; KEEP_TMP={}'.format(
+    args.r, args.c, args.i, args.k)
     
 # Get target_filename for final PDF file
 default_filename = (datetime.fromtimestamp(
@@ -51,6 +74,7 @@ target_folder = path.abspath(path.join(target_filename, pardir))
 print 'Target folder for temporary files will be {0}'.format(target_folder)
 
 images = []
+temp_files = []
 workdir = path.join(path.dirname(path.realpath(__file__)),
                         'cmdtwain-win')
 
@@ -69,6 +93,7 @@ while True:
                               stderr=STDOUT, cwd=workdir)
     handle.wait()
     images.append(image)
+    temp_files.append(image)
     
     # Now the temporary image file lies on the file system
     
@@ -84,12 +109,19 @@ while True:
 c = canvas.Canvas(target_filename)
 c.setPageCompression(1)
 for image in images:
-    c.drawImage(image, 0, 0, 21 * cm, 29.7 * cm)
+    image_jpeg = image + '.jpg'
+    temp_files.append(image_jpeg)
+    try:
+        im = Image.open(image)
+        im.save(image_jpeg, 'JPEG', quality=args.i)
+    except IOError:
+        print 'Cannot create jpeg for {}'.format(image)
+    c.drawImage(image_jpeg, 0, 0, 21 * cm, 29.7 * cm)
     c.showPage()
 c.save()
 
-if args.keeptemp == 'False':
-    for temp_file in images:
+if args.k == 'False':
+    for temp_file in temp_files:
         if path.exists(temp_file):
             print 'Removing temporary file: {0}'.format(temp_file)
             remove(temp_file)
