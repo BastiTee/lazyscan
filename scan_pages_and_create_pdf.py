@@ -87,7 +87,7 @@ while True:
     print 'Creating temporary file at: {0}'.format(image)
 
 
-    command = '{} /PAPER=a4 /RGB /DPI={} {}'.format(
+    command = '{} /PAPER=a4 /RGB /DPI={} \"{}\"'.format(
                 path.join(workdir, 'ScanBmp.exe'), args.r, image)
 
     handle = Popen(command, shell=True, stdout=PIPE,
