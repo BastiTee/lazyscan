@@ -2,8 +2,8 @@
 > A Python script to ease the pain of scanning multiple pages to a single PDF
 
 [![GitHub release](https://img.shields.io/github/release/BastiTee/lazyscan.svg?maxAge=2592000)](https://github.com/BastiTee/lazyscan/releases/latest)
-![Python 2 support](https://img.shields.io/badge/python2-yes-stable.svg)
-![Python 3 support](https://img.shields.io/badge/python3-yes-stable.svg)
+![Python 2 support](https://img.shields.io/badge/python2-stable-green.svg)
+![Python 3 support](https://img.shields.io/badge/python3-stable-green.svg)
 
 ## Requirements
 
