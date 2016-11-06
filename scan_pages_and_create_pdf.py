@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#!/usr/bin/env python3
 """
 Script to invoke scanning on a twain-compatible printer and to convert
 scanned pages to a PDF. Also includes a routine to easily scan multiple
@@ -6,20 +6,20 @@ pages at once.
 """
 
 def get_python_major_version():
-    """Returns the integer value of the major version of Python 
+    """Returns the integer value of the major version of Python
     that runs this script."""
     import sys
     return int(sys.version_info[0])
 
-# Handle imports depending on python version 
+# Handle imports depending on python version
 if get_python_major_version() <= 2:
     import Tkinter, tkMessageBox, tkFileDialog
-    mb = tkMessageBox 
+    mb = tkMessageBox
     fd = tkFileDialog
     tk = Tkinter.Tk
 else:
     from tkinter import Tk, messagebox, filedialog
-    mb = messagebox 
+    mb = messagebox
     fd = filedialog
     tk = Tk
 
@@ -31,6 +31,9 @@ import time
 from PIL import Image
 from reportlab.lib.units import cm
 from reportlab.pdfgen import canvas
+from platform import system
+
+system_string =  str(system()).lower()
 
 # Invoke GUI
 tk().withdraw()
@@ -102,18 +105,29 @@ while True:
     image = path.join(target_folder, timestamp) + '.bmp'
     print ('Creating temporary file at: {0}'.format(image))
 
+    if system_string is 'windows':
+        command = '{} /PAPER=a4 /RGB /DPI={} \"{}\"'.format(
+                    path.join(workdir, 'ScanBmp.exe'), args.r, image)
 
-    command = '{} /PAPER=a4 /RGB /DPI={} \"{}\"'.format(
-                path.join(workdir, 'ScanBmp.exe'), args.r, image)
+        handle = Popen(command, shell=True, stdout=PIPE,
+                                  stderr=STDOUT, cwd=workdir)
+        handle.wait()
+    elif system_string is 'linux':
+        # command = '{} --format=tiff > \"{}\"'.format(
+        #             'scanimage'), image)
+        # handle = Popen(command, shell=True, stdout=PIPE,
+        #                           stderr=STDOUT, cwd=workdir)
+        # handle.wait()
+        print ( "Support for operating system coming soon. Will abort.");
+        break
+    else:
+        print ( "Unsupported operating system. Will abort.");
+        break
 
-    handle = Popen(command, shell=True, stdout=PIPE,
-                              stderr=STDOUT, cwd=workdir)
-    handle.wait()
-    
     if not path.exists(image):
         print ('Creation of file seems to have failed. Will abort.')
         break
-    
+
     images.append(image)
     temp_files.append(image)
 
@@ -125,7 +139,7 @@ while True:
         pass
     else:
         break
-        
+
 if len(images) == 0:
     print ('No pages scanned. PDF will not be created.')
     exit()

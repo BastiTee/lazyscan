@@ -9,7 +9,13 @@
 
 In order for this to run you need to
 
+* install python2 or python3 on a windows or linux system
 * install the requirements `pip install -r requirements`.
-* have a TWAIN-compatible scanner at your command.
+* have a TWAIN/SANE-compatible scanner at your command.
 * have something to scan.
 
+Lazyscan has a documented options-set available via the `-h` option.
+
+## Notes
+
+* http://ubuntuportal.com/2012/02/how-to-get-an-canon-canoscan-lide-100-scanner-to-work-in-ubuntu-11-10linux-mint-12.html
