@@ -35,7 +35,7 @@ from platform import system
 system_string =  str(system()).lower()
 print ("Running OS: {}".format(system_string))
 
-# check if scanimage is installed on linux 
+# check if scanimage is installed on linux
 if "linux" in system_string:
     try:
         dnu = open(devnull)
@@ -126,8 +126,7 @@ while True:
         handle.wait()
     elif "linux" in system_string:
         image = image + ".jpg"
-        command = "{} --resolution {} --format=jpeg > \"{}\"".format(
-                     "scanimage", args.r, image)
+        command = "{} --resolution {} --clear-calibration --format=jpeg > \"{}\"".format("scanimage", args.r, image)
         handle = Popen(command, shell=True, stdout=PIPE,
                                    stderr=STDOUT, cwd=workdir)
         handle.wait()
