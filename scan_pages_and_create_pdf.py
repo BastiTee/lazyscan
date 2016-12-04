@@ -44,7 +44,13 @@ if "linux" in system_string:
         if e.errno == errno.ENOENT:
             print ("'scanimage' not available. Will abort.")
             exit(1)
-
+    try:
+        dnu = open(devnull)
+        Popen(["convert", "--version"], stdout=dnu, stderr=dnu).communicate()
+    except OSError as e:
+        if e.errno == errno.ENOENT:
+            print ("'convert' from imagemagick not available. Will abort.")
+            exit(1)
 # Invoke GUI
 tk().withdraw()
 
@@ -125,11 +131,20 @@ while True:
                                   stderr=STDOUT, cwd=workdir)
         handle.wait()
     elif "linux" in system_string:
+        image_raw = image + ".pgm"
+        temp_files.append(image_raw)
         image = image + ".jpg"
-        command = "{} --resolution {} --clear-calibration --format=jpeg > \"{}\"".format("scanimage", args.r, image)
+        # Scan to pgm format
+        command = "{} --resolution {} --format=pgm > \"{}\"".format("scanimage", args.r, image_raw)
         handle = Popen(command, shell=True, stdout=PIPE,
                                    stderr=STDOUT, cwd=workdir)
         handle.wait()
+        # Convert to jpg
+        command = "{} {} {}".format("convert", image_raw, image)
+        handle = Popen(command, shell=True, stdout=PIPE,
+                                   stderr=STDOUT, cwd=workdir)
+        handle.wait()
+
     else:
         print ( "Unsupported operating system. Will abort.");
         break
