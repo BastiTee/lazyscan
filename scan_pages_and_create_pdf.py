@@ -135,7 +135,8 @@ while True:
         temp_files.append(image_raw)
         image = image + ".jpg"
         # Scan to pgm format
-        command = "{} --resolution {} --format=pgm > \"{}\"".format("scanimage", args.r, image_raw)
+        command = ("{} --mode Color --resolution {} --format=pgm > \"{}\""
+            .format("scanimage", args.r, image_raw))
         handle = Popen(command, shell=True, stdout=PIPE,
                                    stderr=STDOUT, cwd=workdir)
         handle.wait()
